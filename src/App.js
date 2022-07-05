@@ -9,6 +9,10 @@ import ProfileEdit from './pages/ProfileEdit';
 import NotFound from './pages/NotFound';
 
 class App extends React.Component {
+  onLoginButtonClick = () => {
+    console.log('fui clicado');
+  }
+
   render() {
     return (
       <BrowserRouter>

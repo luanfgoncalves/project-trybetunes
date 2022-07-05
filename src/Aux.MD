@@ -16,3 +16,8 @@ npm test 11.RemoveFavoritesSongs
 npm test 12.FavoriteSongsPage
 npm test 13.ProfilePage
 npm test 14.EditProfilePage
+
+Correção de erros do Lint
+
+npm run lint -- --fix
+crtl + . => Fix all Problems
