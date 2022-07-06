@@ -7,7 +7,7 @@ class Header extends React.Component {
         <a href="/">Login</a>
         <a href="/search">Search</a>
         <a href="/favorites">Favorites</a>
-        <a href="/albums">Albums</a>
+        <a href="/album/:id">Albums</a>
         <a href="/profile">Profile</a>
         <p>Carregando... </p>
       </header>

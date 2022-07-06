@@ -1,3 +1,4 @@
+import './style/App.css';
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Login from './pages/Login';
@@ -9,10 +10,6 @@ import ProfileEdit from './pages/ProfileEdit';
 import NotFound from './pages/NotFound';
 
 class App extends React.Component {
-  onLoginButtonClick = () => {
-    console.log('fui clicado');
-  }
-
   render() {
     return (
       <BrowserRouter>
