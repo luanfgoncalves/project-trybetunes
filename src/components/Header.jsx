@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { getUser } from '../services/userAPI';
 import Loading from './Loading';
 
@@ -30,14 +31,15 @@ class Header extends React.Component {
     const { username, isLoginHappening, isLoginFinished } = this.state;
     return (
       <header data-testid="header-component">
-        <a href="/">Login</a>
-        <a href="/search">Search</a>
-        <a href="/favorites">Favorites</a>
-        <a href="/album/:id">Albums</a>
-        <a href="/profile" data-testid="header-user-name">
+        <Link to="/">Login</Link>
+        <Link to="/search" data-testid="link-to-search">Search</Link>
+        <Link to="/favorites" data-testid="link-to-favorites">Favorites</Link>
+        <Link to="/album/:id">Albums</Link>
+        <Link to="/profile" data-testid="link-to-profile">Profile</Link>
+        <p data-testid="header-user-name">
           { isLoginHappening && <Loading /> }
           { isLoginFinished && username }
-        </a>
+        </p>
         {/* {isLoginHappening && <Loading /> } */}
         {/* {isLoginFinished && <a href="/profile" data-testid="header-user-name"> { username } </a> } */}
 
