@@ -9,7 +9,6 @@ class Header extends React.Component {
         <a href="/favorites">Favorites</a>
         <a href="/album/:id">Albums</a>
         <a href="/profile">Profile</a>
-        <p>Carregando... </p>
       </header>
     );
   }
