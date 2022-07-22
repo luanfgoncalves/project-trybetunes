@@ -66,6 +66,7 @@ class SearchForm extends Component {
         isSearchHappening,
         isSearchFinished,
         albums,
+        searchedArtist,
       } = this.state;
       if (isSearchHappening) return (<Loading />);
       return (
