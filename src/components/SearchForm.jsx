@@ -48,7 +48,9 @@ class SearchForm extends Component {
       if (isSearchHappening) return (<Loading />);
       return (
         <main>
-          <form>
+          {/* { isSearchHappening && <Loading /> && { formStyle: 'hidden' } } */}
+
+          <form className="SearchForm">
 
             <input
               data-testid="search-artist-input"
@@ -71,10 +73,17 @@ class SearchForm extends Component {
 
           </form>
 
-          { isSearchFinished && <Albums
-            artist={ artistName }
-            albums={ albums }
-          /> }
+          { isSearchFinished
+          && albums.map((album) => (
+            <Albums
+              key={ album.collectionId }
+              artist={ album.artistName }
+              collectionName={ album.collectionName }
+              artworkUrl100={ album.artworkUrl100 }
+              collectionId={ album.collectionId }
+            />
+          ))}
+          ;
 
         </main>
 

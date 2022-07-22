@@ -1,18 +1,45 @@
 import React, { Component } from 'react';
-import { arrayOf, string } from 'prop-types';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
-export class Albums extends Component {
+class Albums extends Component {
   render() {
-    const { artist, albums } = this.props;
+    const { artistName,
+      // albums,
+      collectionId,
+      artworkUrl100,
+      collectionName,
+    } = this.props;
     return (
-      <div>Albums</div>
+      <>
+        <p>
+          { `Albuns de ${artistName}` }
+        </p>
+        <div>
+          <Link
+            to={ `/album/${collectionId}` }
+            // key={ collectionId }
+            data-testid={ `link-to-album-${collectionId}` }
+          >
+            <img
+              src={ artworkUrl100 }
+              alt={ collectionName }
+            />
+          </Link>
+          <h1>{ artistName }</h1>
+          <p>{ collectionName }</p>
+        </div>
+      </>
     );
   }
 }
 
-Albuns.propTypes = {
-  artist: string.isRequired,
-  albums: arrayOf(shape({})).isRequired,
-};
+Albums.propTypes = {
+  artistName: PropTypes.string,
+  // albums: PropTypes.arrayOf(shape({})),
+  collectionId: PropTypes.string,
+  collectionName: PropTypes.string,
+  artworkUrl100: PropTypes.string,
+}.isRequired;
 
 export default Albums;
