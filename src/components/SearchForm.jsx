@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import searchAlbumsAPI from '../services/searchAlbumsAPI';
+import Loading from './Loading';
+import Albums from './Albums';
 
 class SearchForm extends Component {
   constructor() {
@@ -6,6 +9,9 @@ class SearchForm extends Component {
     this.state = {
       isSearchButtonDisabled: true,
       artistName: '',
+      isSearchHappening: false,
+      isSearchFinished: false,
+      albums: [],
     };
   }
 
@@ -20,31 +26,58 @@ class SearchForm extends Component {
       console.log('O input do nome ddo artista foi alterado');
     }
 
+    onSearchButtonClick = async () => {
+      const { artistName } = this.state;
+      console.log('O botão de pesquisa foi clicado');
+      this.setState({ isSearchHappening: true });
+      console.log('A busca pelo artista está ocorrendo');
+      const data = await searchAlbumsAPI(artistName);
+      const result = await data;
+      this.setState({ albums: result, isSearchHappening: false, isSearchFinished: true });
+      console.log('Abusca pelo artista foi concluida');
+    }
+
     render() {
-      const { isSearchButtonDisabled, artistName } = this.state;
+      const {
+        isSearchButtonDisabled,
+        artistName,
+        isSearchHappening,
+        isSearchFinished,
+        albums,
+      } = this.state;
+      if (isSearchHappening) return (<Loading />);
       return (
-        <form>
+        <main>
+          <form>
 
-          <input
-            data-testid="search-artist-input"
-            id="search-artist-input"
-            name="searchArtist"
-            type="text"
-            placeholder="Artist name"
-            value={ artistName }
-            onChange={ this.handleChange }
-          />
+            <input
+              data-testid="search-artist-input"
+              id="search-artist-input"
+              name="searchArtist"
+              type="text"
+              placeholder="Artist name"
+              value={ artistName }
+              onChange={ this.handleChange }
+            />
 
-          <button
-            data-testid="search-artist-button"
-            id="search-artist-button"
-            type="submit"
-            disabled={ isSearchButtonDisabled }
-          >
-            Pesquisar
-          </button>
+            <button
+              data-testid="search-artist-button"
+              id="search-artist-button"
+              type="submit"
+              disabled={ isSearchButtonDisabled }
+            >
+              Pesquisar
+            </button>
 
-        </form>
+          </form>
+
+          { isSearchFinished && <Albums
+            artist={ artistName }
+            albums={ albums }
+          /> }
+
+        </main>
+
       );
     }
 }
