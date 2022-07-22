@@ -4,38 +4,45 @@ import { Link } from 'react-router-dom';
 
 class Albums extends Component {
   render() {
-    const { artistName,
-      // albums,
-      collectionId,
-      artworkUrl100,
-      collectionName,
+    const {
+      searchedArtist,
+      albums,
     } = this.props;
     return (
-      <>
+      <div>
         <p>
-          { `Albuns de ${artistName}` }
+          { `Resultado de álbuns de: ${searchedArtist}` }
         </p>
-        <div>
-          <Link
-            to={ `/album/${collectionId}` }
-            // key={ collectionId }
-            data-testid={ `link-to-album-${collectionId}` }
-          >
-            <img
-              src={ artworkUrl100 }
-              alt={ collectionName }
-            />
-          </Link>
-          <h1>{ artistName }</h1>
-          <p>{ collectionName }</p>
-        </div>
-      </>
+        { albums.map(
+          ({
+            artistName,
+            collectionId,
+            collectionName,
+            artworkUrl100,
+          }) => (
+            <Link
+              to={ `/album/${collectionId}` }
+              key={ collectionId }
+              data-testid={ `link-to-album-${collectionId}` }
+            >
+              <div>
+                <img
+                  src={ artworkUrl100 }
+                  alt={ collectionName }
+                />
+                <h1>{artistName}</h1>
+                <p>{collectionName}</p>
+              </div>
+            </Link>
+          ),
+        )}
+      </div>
     );
   }
 }
 
 Albums.propTypes = {
-  artistName: PropTypes.string,
+  searchedArtist: PropTypes.string,
   // albums: PropTypes.arrayOf(shape({})),
   collectionId: PropTypes.string,
   collectionName: PropTypes.string,

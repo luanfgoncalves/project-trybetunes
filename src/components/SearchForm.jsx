@@ -8,7 +8,8 @@ class SearchForm extends Component {
     super();
     this.state = {
       isSearchButtonDisabled: true,
-      artistName: '',
+      inputData: '',
+      searchedArtist: '',
       isSearchHappening: false,
       isSearchFinished: false,
       albums: [],
@@ -18,29 +19,50 @@ class SearchForm extends Component {
     // Habilita o botão de pesquisar caso o nome do artista tenha mais de dois caracteres
     handleChange = (event) => {
       const { target } = event;
-      const minimalArtistNameLength = 2;
+      const minimalinputDataLength = 2;
       this.setState({
-        artistName: target.value,
-        isSearchButtonDisabled: target.value.length < minimalArtistNameLength,
+        inputData: target.value,
+        isSearchButtonDisabled: target.value.length < minimalinputDataLength,
       });
       console.log('O input do nome ddo artista foi alterado');
     }
 
-    onSearchButtonClick = async () => {
-      const { artistName } = this.state;
+    // requestApi = async () => {
+    //   const { searchedArtist } = this.state;
+    //   const result = await searchAlbumsAPI(searchedArtist);
+    //   const data = await result;
+    //   if (data.length > 0) {
+    //     this.setState({
+    //       albums: data,
+    //       isSearchHappening: false,
+    //       isSearchFinished: true,
+    //     });
+    //   }
+    // }
+
+    onSearchButtonClick = () => {
+      const { inputData } = this.state;
       console.log('O botão de pesquisa foi clicado');
-      this.setState({ isSearchHappening: true });
-      console.log('A busca pelo artista está ocorrendo');
-      const data = await searchAlbumsAPI(artistName);
-      const result = await data;
-      this.setState({ albums: result, isSearchHappening: false, isSearchFinished: true });
+      this.setState({
+        isSearchHappening: true,
+        searchedArtist: inputData,
+        inputData: '',
+      }, async () => {
+        const { searchedArtist } = this.state;
+        console.log('A busca pelo artista está ocorrendo');
+        this.setState({
+          isSearchHappening: false,
+          isSearchFinished: true,
+          albums: await searchAlbumsAPI(searchedArtist),
+        });
+      });
       console.log('Abusca pelo artista foi concluida');
     }
 
     render() {
       const {
         isSearchButtonDisabled,
-        artistName,
+        inputData,
         isSearchHappening,
         isSearchFinished,
         albums,
@@ -50,7 +72,7 @@ class SearchForm extends Component {
         <main>
           {/* { isSearchHappening && <Loading /> && { formStyle: 'hidden' } } */}
 
-          <form className="SearchForm">
+          <form>
 
             <input
               data-testid="search-artist-input"
@@ -58,7 +80,7 @@ class SearchForm extends Component {
               name="searchArtist"
               type="text"
               placeholder="Artist name"
-              value={ artistName }
+              value={ inputData }
               onChange={ this.handleChange }
             />
 
@@ -67,23 +89,25 @@ class SearchForm extends Component {
               id="search-artist-button"
               type="submit"
               disabled={ isSearchButtonDisabled }
+              onClick={ this.onSearchButtonClick }
             >
               Pesquisar
             </button>
 
           </form>
 
-          { isSearchFinished
-          && albums.map((album) => (
-            <Albums
-              key={ album.collectionId }
-              artist={ album.artistName }
-              collectionName={ album.collectionName }
-              artworkUrl100={ album.artworkUrl100 }
-              collectionId={ album.collectionId }
-            />
-          ))}
-          ;
+          {/* { isSearchFinished && <Albums
+            artist={ inputData }
+            albums={ albums }
+          />}
+          ; */}
+          { isSearchFinished && (
+            <div>
+              { albums.length > 0
+                ? <Albums searchedArtist={ searchedArtist } albums={ albums } />
+                : <p>Nenhum álbum foi encontrado</p>}
+            </div>
+          )}
 
         </main>
 
