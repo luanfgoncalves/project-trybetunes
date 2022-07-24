@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Header from '../components/Header';
 import Loading from '../components/Loading';
 import getMusic from '../services/musicsAPI';
+import MusicCard from '../components/MusicCard';
 
 class Album extends React.Component {
   constructor() {
@@ -33,12 +34,18 @@ class Album extends React.Component {
         <Header />
         {musics.length > 0 ? (
           <div>
-            <p data-testid="album-name">
+            <p data-testid="artist-name">
               { musicList.artistName }
             </p>
             <p data-testid="album-name">
               { musicList.collectionName }
             </p>
+            {musics.map((music, index) => ( // mapeamento via props- Jarbas
+              <MusicCard
+                music={ music }
+                key={ index }
+              />
+            ))}
           </div>
         ) : (
           <Loading />
