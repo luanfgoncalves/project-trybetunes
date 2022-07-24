@@ -7,35 +7,52 @@ class MusicCard extends Component {
   constructor() {
     super();
     this.state = {
-      isFavoriting: false,
+      isLoading: false,
       isFavorited: false,
     };
   }
 
+  // componentDidMount() {
+  //   this.recoverFavoriteSongs();
+  // }
+
   addToFavorite = async () => {
-    const { music } = this.props;
+    const { trackId } = this.props;
     this.setState({
-      isFavoriting: true,
+      isLoading: true,
     });
-    await addSong(music);
+    await addSong({ trackId });
+    // await getFavoriteSongs(); // req 10
     this.setState({
+      isLoading: false,
       isFavorited: true,
-      isFavoriting: false,
     });
   }
 
+  // recoverFavorites = async () => {
+  //   this.setState({ isLoading: true });
+  //   const favoriteMusics = await getFavoriteSongs();
+  //   this.setState({
+  //     favorites: favoriteMusics,
+  //   });
+  // }
+
+  // removeFavorite = () => {
+
+  // }
+
   render() {
-    const { music } = this.props;
-    const { isFavoriting, isFavorited } = this.state;
+    const { trackName, trackId, artwork } = this.props;
+    const { isLoading, isFavorited } = this.state;
     return (
       <div>
-        { isFavoriting ? (<Loading />
+        { isLoading ? (<Loading />
         ) : (
           <div>
-            {music.trackName}
+            {trackName}
             <audio
               data-testid="audio-component"
-              src={ music.previewUrl }
+              src={ artwork }
               controls
             >
               <track kind="captions" />
@@ -44,7 +61,7 @@ class MusicCard extends Component {
               .
             </audio>
             <input
-              data-testid={ `checkbox-music-${music.trackId}` }
+              data-testid={ `checkbox-music-${trackId}` }
               type="checkbox"
               onChange={ this.addToFavorite }
               checked={ isFavorited }
@@ -58,7 +75,9 @@ class MusicCard extends Component {
 }
 
 MusicCard.propTypes = {
-  music: PropTypes.arrayOf(PropTypes.any),
+  trackName: PropTypes.string,
+  trackId: PropTypes.string,
+  artwork: PropTypes.string,
 }.isRequired;
 
 export default MusicCard;
