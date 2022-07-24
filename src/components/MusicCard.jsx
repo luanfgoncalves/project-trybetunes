@@ -29,10 +29,9 @@ class MusicCard extends Component {
     const { isFavoriting, isFavorited } = this.state;
     return (
       <div>
-        { isFavoriting && <Loading /> }
-
-        { isFavorited
-          && <div>
+        { isFavoriting ? (<Loading />
+        ) : (
+          <div>
             {music.trackName}
             <audio
               data-testid="audio-component"
@@ -51,7 +50,8 @@ class MusicCard extends Component {
               checked={ isFavorited }
             />
 
-          </div>}
+          </div>
+        )}
       </div>
     );
   }
