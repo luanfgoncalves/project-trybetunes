@@ -9,47 +9,41 @@ class Album extends React.Component {
   constructor() {
     super();
     this.state = {
-      musics: '',
-      artistName: '',
-      collectionName: '',
-      artWork: '',
+      musics: [],
+      musicList: {},
     };
   }
 
   componentDidMount = async () => {
     const { match } = this.props; // recupera o match do router-dom, com id como prop vinda da url
-    const musicsData = await getMusic(match.params.id);
+    const musics = await getMusic(match.params.id);
     this.setState({
-      musics: musicsData,
-      artistName: musicsData[0].artistName,
-      collectionName: musicsData[0].collectionName,
-      artWork: musicsData[0].artworkUrl100,
+      musicList: musics[0],
+    });
+    this.setState({
+      musics: musics.filter((element) => (
+        element.kind === 'song'
+      )),
     });
   }
 
   render() {
-    const { musics, artistName, collectionName, artWork } = this.state;
+    const { musics, musicList } = this.state;
     return (
       <div data-testid="page-album">
         <Header />
         {musics.length > 0 ? (
           <div>
-            <img
-              src={ artWork }
-              alt={ artistName }
-            />
             <p data-testid="artist-name">
-              { artistName }
+              { musicList.artistName }
             </p>
             <p data-testid="album-name">
-              { collectionName }
+              { musicList.collectionName }
             </p>
             {musics.map((music, index) => ( // mapeamento via props- Jarbas
               <MusicCard
+                music={ music }
                 key={ index }
-                trackName={ music.trackName }
-                previwUrl={ music.previewUrl }
-                trackId={ music.trackId }
               />
             ))}
           </div>
@@ -58,6 +52,7 @@ class Album extends React.Component {
         )}
         ;
         <p>Album Page</p>
+        {/* <p>{`Album ${this.props.match.params.id}`}</p> */}
       </div>
     );
   }

@@ -1,75 +1,41 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-// import { addSong } from '../services/favoriteSongsAPI';
-import { addSong, removeSong, getFavoriteSongs } from '../services/favoriteSongsAPI';
+import { addSong } from '../services/favoriteSongsAPI';
 import Loading from './Loading';
 
 class MusicCard extends Component {
   constructor() {
     super();
     this.state = {
-      isLoading: false,
+      isFavoriting: false,
       isFavorited: false,
-      favorites: [], // array que guarda todas as musicas favoritadas p/ recuperação
     };
   }
 
-  componentDidMount() {
-    this.recoverFavorites();
-  }
-
-  // addToFavorite = async () => {
-  //   const { trackId } = this.props;
-  //   this.setState({
-  //     isLoading: true,
-  //   });
-  //   await addSong({ trackId });
-  //   // await getFavoriteSongs(); // req 10
-  //   this.setState({
-  //     isLoading: false,
-  //     isFavorited: true,
-  //   });
-  // }
-
-  removeFavorite = async (musicData) => {
-    const { favorites } = this.state;
-    const { trackId } = musicData;
-    const favorite = favorites.some((ai) => ai.trackId === trackId);
-    if (favorite) await removeSong(musicData);
-  }
-
-  addToFavorite = async ({ trackName, artwork, trackId }) => {
-    const musicData = { trackName, artwork, trackId }; // LEMBRAR - reconstroi music, depois passar via props
-    this.setState((prevState) => ({ isFavorited: !(prevState.isFavorited) }),
-      async () => {
-        this.setState({ isLoading: true });
-        await addSong(musicData);
-        this.setState({ isLoading: false });
-        this.removeFavorite(musicData);
-      });
-  }
-
-  recoverFavorites = async () => { // funcionando corretamente
-    this.setState({ isLoading: true });
-    const favoriteMusics = await getFavoriteSongs();
+  addToFavorite = async () => {
+    const { music } = this.props;
     this.setState({
-      favorites: favoriteMusics,
-      isLoading: false,
+      isFavoriting: true,
+    });
+    await addSong(music);
+    this.setState({
+      isFavorited: true,
+      isFavoriting: false,
     });
   }
 
   render() {
-    const { trackName, trackId, artwork } = this.props;
-    const { isLoading, isFavorited } = this.state;
+    const { music } = this.props;
+    const { isFavoriting, isFavorited } = this.state;
     return (
       <div>
-        { isLoading ? (<Loading />
+        { isFavoriting ? (<Loading />
         ) : (
           <div>
-            {trackName}
+            {music.trackName}
             <audio
               data-testid="audio-component"
-              src={ artwork }
+              src={ music.previewUrl }
               controls
             >
               <track kind="captions" />
@@ -78,9 +44,9 @@ class MusicCard extends Component {
               .
             </audio>
             <input
-              data-testid={ `checkbox-music-${trackId}` }
+              data-testid={ `checkbox-music-${music.trackId}` }
               type="checkbox"
-              onChange={ () => this.addToFavorite({ trackName, artwork, trackId }) }
+              onChange={ this.addToFavorite }
               checked={ isFavorited }
             />
 
@@ -92,9 +58,7 @@ class MusicCard extends Component {
 }
 
 MusicCard.propTypes = {
-  trackName: PropTypes.string,
-  trackId: PropTypes.string,
-  artwork: PropTypes.string,
+  music: PropTypes.arrayOf(PropTypes.any),
 }.isRequired;
 
 export default MusicCard;
