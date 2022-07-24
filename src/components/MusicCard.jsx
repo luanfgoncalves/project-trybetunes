@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 // import PropTypes from 'prop-types';
 
-class Music extends Component {
+class MusicCard extends Component {
   render() {
     return (
-      <div>Musics</div>
+      <div>MusicCard</div>
     );
   }
 }
 
-export default Music;
+export default MusicCard;
