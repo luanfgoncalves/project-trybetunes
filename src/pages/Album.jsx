@@ -16,7 +16,12 @@ class Album extends React.Component {
     };
   }
 
-  componentDidMount = async () => {
+  componentDidMount() {
+    this.recoverMusics();
+    this.recoverFavorites();
+  }
+
+  recoverMusics = async () => {
     const { match } = this.props; // recupera o match do router-dom, com id como prop vinda da url
     const musics = await getMusic(match.params.id);
     this.setState({
@@ -25,7 +30,6 @@ class Album extends React.Component {
         element.kind === 'song'
       )),
     });
-    this.recoverFavorites();
   }
 
   recoverFavorites = async () => { // funcionando corretamente
