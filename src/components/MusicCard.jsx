@@ -8,7 +8,7 @@ class MusicCard extends Component {
     super();
     this.state = {
       isFavoriting: false,
-      isFavorited: false,
+      // isFavorited: false,
     };
   }
 
@@ -19,14 +19,21 @@ class MusicCard extends Component {
     });
     await addSong(music);
     this.setState({
-      isFavorited: true,
+      // isFavorited: true,
       isFavoriting: false,
     });
   }
 
+  handleChecked = () => {
+    const { check, music } = this.props;
+    return check.some((element) => element.trackId === music.trackId); // virifica se check === track
+  }
+
   render() {
     const { music } = this.props;
-    const { isFavoriting, isFavorited } = this.state;
+    const { isFavoriting,
+      // isFavorited,
+    } = this.state;
     return (
       <div>
         { isFavoriting ? (<Loading />
@@ -43,12 +50,15 @@ class MusicCard extends Component {
               <code>audio</code>
               .
             </audio>
-            <input
-              data-testid={ `checkbox-music-${music.trackId}` }
-              type="checkbox"
-              onChange={ this.addToFavorite }
-              checked={ isFavorited }
-            />
+            <label htmlFor="checkbox">
+              <input
+                data-testid={ `checkbox-music-${music.trackId}` }
+                name="checkbox"
+                type="checkbox"
+                onChange={ this.addToFavorite }
+                checked={ this.handleChecked() }
+              />
+            </label>
 
           </div>
         )}
@@ -58,7 +68,7 @@ class MusicCard extends Component {
 }
 
 MusicCard.propTypes = {
-  music: PropTypes.arrayOf(PropTypes.any),
+  music: PropTypes.object,
 }.isRequired;
 
 export default MusicCard;
