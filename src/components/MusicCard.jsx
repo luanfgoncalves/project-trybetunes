@@ -1,9 +1,31 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { addSong } from '../services/favoriteSongsAPI';
 
 class MusicCard extends Component {
+  constructor() {
+    super();
+    this.state = {
+      isFavoriting: false,
+      isFavorited: false,
+    };
+  }
+
+  addToFavorite = async () => {
+    const { music } = this.props;
+    this.setState({
+      isFavoriting: true,
+    });
+    await addSong(music);
+    this.setState({
+      isFavorited: true,
+      isFavoriting: false,
+    });
+  }
+
   render() {
     const { music } = this.props;
+    const { isFavoriting, isFavorited } = this.state;
     return (
       <div>
         {music.trackName}
@@ -17,6 +39,12 @@ class MusicCard extends Component {
           <code>audio</code>
           .
         </audio>
+        <input
+          data-testid={ `checkbox-music-${music.trackId}` }
+          type="checkbox"
+          onChange={ this.addToFavorite }
+          checked={ isFavorited }
+        />
       </div>
     );
   }
