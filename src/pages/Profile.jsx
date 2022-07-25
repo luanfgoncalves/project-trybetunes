@@ -1,8 +1,9 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import { getUser } from '../services/userAPI';
 import Loading from '../components/Loading';
+import ProfileCard from '../components/ProfileCard';
 
 class Profile extends React.Component {
   constructor() {
@@ -40,14 +41,16 @@ class Profile extends React.Component {
     return (
       <div data-testid="page-profile">
         <Header />
-        {isLoading && <Loading />}
-        <img data-testid="profile-image" src={ userImg } alt={ userName } />
-        <p>{`Nome: ${userName}`}</p>
-        <p>{`Email: ${userEmail}`}</p>
-        <p>{`Descrição: ${userInfo}`}</p>
-        <Link to="/profile/edit">
-          <button type="button">Editar perfil</button>
-        </Link>
+        {isLoading ? (<Loading />
+        ) : (
+          <ProfileCard
+            userName={ userName }
+            userInfo={ userInfo }
+            userEmail={ userEmail }
+            userImg={ userImg }
+          />
+        )}
+        ;
         <p>Profile page</p>
       </div>
     );
