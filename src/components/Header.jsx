@@ -36,10 +36,8 @@ class Header extends React.Component {
         <Link to="/favorites" data-testid="link-to-favorites">Favorites</Link>
         <Link to="/album/:id">Albums</Link>
         <Link to="/profile" data-testid="link-to-profile">Profile</Link>
-        <div data-testid="header-user-name">
-          { isLoginHappening && <Loading /> }
-          { isLoginFinished && username }
-        </div>
+        { isLoginHappening && <Loading /> }
+        { isLoginFinished && <div data-testid="header-user-name">{username}</div>}
         {/* {isLoginHappening && <Loading /> } */}
         {/* {isLoginFinished && <a href="/profile" data-testid="header-user-name"> { username } </a> } */}
 
