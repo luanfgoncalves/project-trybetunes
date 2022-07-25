@@ -4,7 +4,7 @@ import Header from '../components/Header';
 import Loading from '../components/Loading';
 import getMusic from '../services/musicsAPI';
 import MusicCard from '../components/MusicCard';
-import { getFavoriteSongs } from '../services/favoriteSongsAPI';
+// import { getFavoriteSongs } from '../services/favoriteSongsAPI';
 
 class Album extends React.Component {
   constructor() {
@@ -12,13 +12,13 @@ class Album extends React.Component {
     this.state = {
       musics: [],
       musicData: {},
-      favorites: [],
+      // favorites: [], vai pra favorites.jsx
     };
   }
 
   componentDidMount() {
     this.recoverMusics();
-    this.recoverFavorites();
+    // this.recoverFavorites();
   }
 
   recoverMusics = async () => {
@@ -32,14 +32,12 @@ class Album extends React.Component {
     });
   }
 
-  recoverFavorites = async () => { // funcionando corretamente
-    // this.setState({ isLoading: true });
-    const favoriteMusics = await getFavoriteSongs();
-    this.setState({
-      favorites: favoriteMusics,
-      // isLoading: false,
-    });
-  }
+  // recoverFavorites = async () => { //  vai ter que ir pro Favorites
+  //   const favoriteMusics = await getFavoriteSongs();
+  //   this.setState({
+  //     favorites: favoriteMusics,
+  //   });
+  // }
 
   render() {
     const { musics, musicData, favorites } = this.state;
@@ -58,9 +56,10 @@ class Album extends React.Component {
               <MusicCard
                 music={ music }
                 key={ index }
-                check={ favorites } // passa as musicas favoritas direto como props pra renderização condicional pqp agorafoidesgraçadocaralho4hrs60linhasresumidasem5aeeeeeeepqp
+                // check={ favorites } // passa as musicas favoritas direto como props pra renderização condicional pqp agorafoidesgraçadocaralho4hrs60linhasresumidasem5aeeeeeeepqp -- comentado pq voltei com o isFavorited, mas lembre pq a ideia é boa.
               />
             ))}
+            <p>{ favorites }</p>
           </div>
         ) : (
           <Loading />
