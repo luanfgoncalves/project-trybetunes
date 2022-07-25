@@ -97,6 +97,7 @@ class MusicCard extends Component {
                 Favorita
                 <input
                   data-testid={ `checkbox-music-${music.trackId}` }
+                  id="checkbox"
                   name="checkbox"
                   type="checkbox"
                   onChange={ this.handleFavorite } // checa se é favorito antes de adicionar req8
