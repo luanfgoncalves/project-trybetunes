@@ -40,11 +40,6 @@ class Header extends React.Component {
           { isLoginHappening && <Loading /> }
           { isLoginFinished && username }
         </div>
-        {/* { isLoginHappening && <Loading /> }
-        { isLoginFinished && <div data-testid="header-user-name">{username}</div>} */}
-        {/* {isLoginHappening && <Loading /> } */}
-        {/* {isLoginFinished && <a href="/profile" data-testid="header-user-name"> { username } </a> } */}
-
       </header>
     );
   }

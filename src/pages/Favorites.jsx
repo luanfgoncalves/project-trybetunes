@@ -25,7 +25,6 @@ class Favorites extends React.Component {
 
   render() {
     const { isLoading, favorites } = this.state;
-    // if (isLoading === true) return (<Loading />);
     return (
       <div data-testid="page-favorites">
         <Header />
@@ -35,7 +34,7 @@ class Favorites extends React.Component {
             key={ music.trackId }
             music={ music }
             favorites={ favorites }
-            renderedInFavorites="renderedInFavorites" // prop usada pra renderização condicional que mostra somente as musicas favoritas
+            renderedInFavorites="renderedInFavorites"
           />
         ))}
         <p>Favorites Page</p>

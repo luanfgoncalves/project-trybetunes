@@ -16,7 +16,6 @@ class SearchForm extends Component {
     };
   }
 
-    // Habilita o botão de pesquisar caso o nome do artista tenha mais de dois caracteres
     handleChange = (event) => {
       const { target } = event;
       const minimalinputDataLength = 2;
@@ -24,54 +23,30 @@ class SearchForm extends Component {
         inputData: target.value,
         isSearchButtonDisabled: target.value.length < minimalinputDataLength,
       });
-      console.log('O input do nome ddo artista foi alterado');
     }
-
-    // requestApi = async () => {
-    //   const { searchedArtist } = this.state;
-    //   const result = await searchAlbumsAPI(searchedArtist);
-    //   const data = await result;
-    //   if (data.length > 0) {
-    //     this.setState({
-    //       albums: data,
-    //       isSearchHappening: false,
-    //       isSearchFinished: true,
-    //     });
-    //   }
-    // }
 
     onSearchButtonClick = () => {
       const { inputData } = this.state;
-      console.log('O botão de pesquisa foi clicado');
       this.setState({
         isSearchHappening: true,
         searchedArtist: inputData,
         inputData: '',
       }, async () => {
         const { searchedArtist } = this.state;
-        console.log('A busca pelo artista está ocorrendo');
         this.setState({
           isSearchHappening: false,
           isSearchFinished: true,
           albums: await searchAlbumsAPI(searchedArtist),
         });
       });
-      console.log('Abusca pelo artista foi concluida');
     }
 
     render() {
-      const {
-        isSearchButtonDisabled,
-        inputData,
-        isSearchHappening,
-        isSearchFinished,
-        albums,
-        searchedArtist,
-      } = this.state;
+      const { isSearchButtonDisabled, inputData, isSearchHappening,
+        isSearchFinished, albums, searchedArtist } = this.state;
       if (isSearchHappening) return (<Loading />);
       return (
         <main>
-          {/* { isSearchHappening && <Loading /> && { formStyle: 'hidden' } } */}
 
           <form>
 
@@ -97,11 +72,6 @@ class SearchForm extends Component {
 
           </form>
 
-          {/* { isSearchFinished && <Albums
-            artist={ inputData }
-            albums={ albums }
-          />}
-          ; */}
           { isSearchFinished && (
             <div>
               { albums.length > 0

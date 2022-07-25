@@ -44,9 +44,6 @@ class Albums extends Component {
 Albums.propTypes = {
   searchedArtist: PropTypes.string,
   albums: PropTypes.arrayOf(Object),
-  // collectionId: PropTypes.string,
-  // collectionName: PropTypes.string,
-  // artworkUrl100: PropTypes.string,
 }.isRequired;
 
 export default Albums;

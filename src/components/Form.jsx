@@ -15,7 +15,6 @@ class Form extends Component {
     };
   }
 
-      // Habilita o botão de salvar caso o nome de usuário tenha mais de três caracteres
       handleChange = (event) => {
         const { target } = event;
         const minimalUsernameLength = 3;
@@ -23,18 +22,13 @@ class Form extends Component {
           username: target.value,
           isLoginButtonDisabled: target.value.length < minimalUsernameLength,
         });
-        console.log('O input do nome de usuário foi alterado');
       }
 
-      // função que chama createUser da API
       onLoginButtonClick = async () => {
-        console.log('O botão de login foi clicado');
         const { username } = this.state;
         this.setState({ isLoginHappening: true });
-        console.log('O Login está ocorrendo');
         await createUser({ name: username });
         this.setState({ isLoginHappening: false, isLoginFinished: true });
-        console.log('O login foi concluido');
       }
 
       render() {
@@ -44,7 +38,6 @@ class Form extends Component {
           isLoginHappening,
           isLoginFinished,
         } = this.state;
-        // if (isLoginHappening === true) return (<Loading />);
         return (
           <form>
             { isLoginHappening && <Loading /> }
@@ -67,7 +60,7 @@ class Form extends Component {
               data-testid="login-submit-button"
               id="login-submit-button"
               type="submit"
-              disabled={ isLoginButtonDisabled } // deve alternar para true caso o input receba mais de 3 caracteres
+              disabled={ isLoginButtonDisabled }
               onClick={ this.onLoginButtonClick }
             >
               Entrar

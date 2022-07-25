@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-// import { Redirect } from 'react-router-dom';
-// import { Navigate } from 'react-router-dom';
-// import { useHistory } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import Loading from './Loading';
 import { getUser, updateUser } from '../services/userAPI';
 
@@ -16,7 +13,7 @@ class ProfileForm extends Component {
       email: '',
       image: '',
       isEditButtonBlocked: true,
-    //   isEditFinished: false,
+      isEditFinished: false,
     };
   }
 
@@ -37,30 +34,20 @@ class ProfileForm extends Component {
     }
 
     onEditButtonClick = async (event) => {
-      const { history } = this.props;
       event.preventDefault();
       const { name, email, image, description } = this.state;
       const userData = { name, email, image, description };
       await updateUser(userData);
-      history.push('/profile');
-      //   this.editFinished();
-      //   const updatedData = await getUser();
-      //   if (updatedData > 0) { this.editFinished(); }
-      //   if (updatedData.name === name
-      //       && updatedData.email === email
-      //       && updatedData.description === description
-      //       && updatedData.image === image) { this.editFinished(); }
+      this.setState({ isEditFinished: true });
     }
 
-    // editFinished = () => {
-    //   const { isLoading } = this.state;
-    //   if (isLoading === false) { this.setState({ isEditFinished: true }); }
-    // }
+    editFinished = () => {
+      const { isLoading } = this.state;
+      if (isLoading === false) { this.setState({ isEditFinished: true }); }
+    }
 
     handleChange = ({ target: { id, value } }) => {
       this.setState({ [id]: value });
-      // handleChange = (event) => {
-      //   const { target } = event;
       const { name, email, image, description } = this.state;
       if (name.length > 0
             && email.length > 0
@@ -74,17 +61,12 @@ class ProfileForm extends Component {
     }
 
     render() {
-      const { name, email, image, description, isEditButtonBlocked,
-        // isEditFinished,
-        isLoading } = this.state;
-      //   if (isEditFinished === true) { return <Navigate to="/profile" />; }
-      //   if (isEditFinished === true
-      //     && isLoading === false) { return <Redirect to="/profile" />; }
+      const { name, email, image, description,
+        isEditButtonBlocked, isEditFinished, isLoading } = this.state;
+      if (isEditFinished === true) { return <Redirect to="/profile" />; }
       return (
         <form>
           { isLoading && <Loading /> }
-          {/* { isEditFinished && <Redirect to="/profile" /> } */}
-          {/* { isEditFinished && <Navigate to="/profile" /> } */}
           <label htmlFor="name">
             <p>User:</p>
             <input
@@ -147,12 +129,9 @@ class ProfileForm extends Component {
     }
 }
 
-ProfileForm.propTypes = {
-  history: PropTypes.object, // proptype nativa ?
-}.isRequired;
-
 export default ProfileForm;
 
 // Referencias:
 // https://www.youtube.com/watch?v=a7uPQ10UyM0&t=62s - History component
 // https://dev.to/projectescape/programmatic-navigation-in-react-3p1l - history prop
+// Nota: estas referencias foram utilizadas para um modelo de redirecionamento via history prop, que foi substituido pelo Redirect do react-router-dom.
