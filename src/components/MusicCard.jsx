@@ -18,30 +18,18 @@ class MusicCard extends Component {
   }
 
   recoverFavorite = async () => {
-    const { music } = this.props; // declarar music como uma let dentro do escopo geral ?
-    // const { favorites } = this.state;
-    // const favorite = favorites.some((ai) => ai.trackId === trackId);
-    // if (favorite) await removeSong(music);
+    const { music } = this.props;
     const favorite = await getFavoriteSongs(music);
     if (favorite.some((element) => element.trackId === music.trackId)) {
       this.setState({ isFavorited: true });
-    }
-    if (favorite.some((element) => element.trackId !== music.trackId)) {
-      this.setState({ isFavorited: false });
-    }
+    } else { this.setState({ isFavorited: false }); }
   }
 
-  addToFavorite = async () => { // OK
+  addToFavorite = async () => {
     const { music } = this.props;
-    this.setState({
-      isFavoriting: true,
-    });
+    this.setState({ isFavoriting: true });
     await addSong(music);
-    this.setState({
-      // isFavorited: true,
-      isFavoriting: false,
-    });
-    // this.recoverFavorite(); // ver se da certo req10
+    this.setState({ isFavoriting: false });
   }
 
   handleFavorite = () => {
@@ -57,27 +45,18 @@ class MusicCard extends Component {
       this.setState({ isFavorited: true });
       this.addToFavorite();
     }
-    // if (isFavorited === false) {
-    //   this.setState({ isFavorited: true });
-    //   this.recoverFavorite();
-    // }
-    // this.setState({ isFavorited: true });
-    // this.addToFavorite();
   }
 
-  removeFavorite = async () => { // OK
+  removeFavorite = async () => {
     const { music } = this.props;
     this.setState({ isFavoriting: true });
     await removeSong(music);
-    this.setState({ isFavoriting: false }); // Mudar nome do estado pq não tá só favoritando
+    this.setState({ isFavoriting: false });
   }
 
   render() {
     const { music } = this.props;
-    const { isFavoriting,
-      isFavorited,
-      unFavorite,
-    } = this.state;
+    const { isFavoriting, isFavorited, unFavorite } = this.state;
     return (
       <div>
         { isFavoriting && <Loading /> }
@@ -102,7 +81,7 @@ class MusicCard extends Component {
                   id="checkbox"
                   name="checkbox"
                   type="checkbox"
-                  onChange={ this.handleFavorite } // checa se é favorito antes de adicionar req8
+                  onChange={ this.handleFavorite }
                   checked={ isFavorited }
                 />
               </label>
