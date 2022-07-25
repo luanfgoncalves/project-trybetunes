@@ -31,17 +31,17 @@ class MusicCard extends Component {
     }
   }
 
-  addToFavorite = async () => {
+  addToFavorite = async () => { // OK
     const { music } = this.props;
     this.setState({
       isFavoriting: true,
     });
     await addSong(music);
     this.setState({
-      isFavorited: true,
+      // isFavorited: true,
       isFavoriting: false,
     });
-    this.recoverFavorite(); // ver se da certo req10
+    // this.recoverFavorite(); // ver se da certo req10
   }
 
   handleFavorite = () => {
@@ -50,20 +50,22 @@ class MusicCard extends Component {
     if (renderedInFavorites === 'renderedInFavorites') {
       this.removeFavorite();
       this.setState({ unFavorite: true });
+    } else if (isFavorited === true) {
+      this.setState({ isFavorited: false });
+      this.removeFavorite();
+    } else if (isFavorited === false) {
+      this.setState({ isFavorited: true });
+      this.addToFavorite();
     }
     // if (isFavorited === false) {
     //   this.setState({ isFavorited: true });
     //   this.recoverFavorite();
     // }
-    if (isFavorited === true) {
-      this.setState({ isFavorited: false });
-      this.removeFavorite();
-    }
-    this.setState({ isFavorited: true });
-    this.addToFavorite();
+    // this.setState({ isFavorited: true });
+    // this.addToFavorite();
   }
 
-  removeFavorite = async () => {
+  removeFavorite = async () => { // OK
     const { music } = this.props;
     this.setState({ isFavoriting: true });
     await removeSong(music);
@@ -79,7 +81,7 @@ class MusicCard extends Component {
     return (
       <div>
         { isFavoriting && <Loading /> }
-        {unFavorite ? null
+        { unFavorite ? null
           : (
             <div>
               {music.trackName}
