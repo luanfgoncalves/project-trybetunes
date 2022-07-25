@@ -17,7 +17,11 @@ class Profile extends React.Component {
     };
   }
 
-  componentDidMount = async () => {
+  componentDidMount = () => {
+    this.fetchApi();
+  }
+
+  fetchApi = async () => {
     this.setState({ isLoading: true });
     const userData = await getUser();
     this.setState({

@@ -13,9 +13,9 @@ class ProfileCard extends Component {
     return (
       <>
         <img data-testid="profile-image" src={ image } alt={ name } />
-        <p>{name}</p>
-        <p>{email}</p>
-        <p>{description}</p>
+        <p>{`Nome: ${name}`}</p>
+        <p>{`Email: ${email}`}</p>
+        <p>{`Descrição: ${description}`}</p>
         <Link to="/profile/edit">
           <button type="button">Editar perfil</button>
         </Link>
