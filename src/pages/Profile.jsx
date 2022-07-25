@@ -10,10 +10,10 @@ class Profile extends React.Component {
     super();
     this.state = {
       isLoading: false,
-      userName: '',
-      userInfo: '',
-      userEmail: '',
-      userImg: '',
+      name: '',
+      description: '',
+      email: '',
+      image: '',
     };
   }
 
@@ -22,20 +22,20 @@ class Profile extends React.Component {
     const userData = await getUser();
     this.setState({
       isLoading: false,
-      userName: userData.name,
-      userInfo: userData.description,
-      userEmail: userData.email,
-      userImg: userData.image,
+      name: userData.name,
+      description: userData.description,
+      email: userData.email,
+      image: userData.image,
     });
   }
 
   render() {
     const {
       isLoading,
-      userName,
-      userInfo,
-      userEmail,
-      userImg,
+      name,
+      description,
+      email,
+      image,
     } = this.state;
     // if (isLoading === true) return (<Loading />);
     return (
@@ -44,10 +44,10 @@ class Profile extends React.Component {
         {isLoading ? (<Loading />
         ) : (
           <ProfileCard
-            userName={ userName }
-            userInfo={ userInfo }
-            userEmail={ userEmail }
-            userImg={ userImg }
+            name={ name }
+            description={ description }
+            email={ email }
+            image={ image }
           />
         )}
         ;
