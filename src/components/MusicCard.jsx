@@ -9,6 +9,7 @@ class MusicCard extends Component {
     this.state = {
       isFavoriting: false,
       isFavorited: false,
+      unFavorite: false,
     };
   }
 
@@ -45,12 +46,20 @@ class MusicCard extends Component {
 
   handleFavorite = () => {
     const { isFavorited } = this.state;
-    if (isFavorited === false) {
-      this.setState({ isFavorited: true });
+    const { renderedInFavorites } = this.props;
+    if (renderedInFavorites === 'renderedInFavorites') {
+      this.removeFavorite();
+      this.setState({ unFavorite: true });
     }
+    // if (isFavorited === false) {
+    //   this.setState({ isFavorited: true });
+    //   this.recoverFavorite();
+    // }
     if (isFavorited === true) {
       this.setState({ isFavorited: false });
+      this.removeFavorite();
     }
+    this.setState({ isFavorited: true });
     this.addToFavorite();
   }
 
@@ -65,35 +74,38 @@ class MusicCard extends Component {
     const { music } = this.props;
     const { isFavoriting,
       isFavorited,
+      unFavorite,
     } = this.state;
     return (
       <div>
-        { isFavoriting ? (<Loading />
-        ) : (
-          <div>
-            {music.trackName}
-            <audio
-              data-testid="audio-component"
-              src={ music.previewUrl }
-              controls
-            >
-              <track kind="captions" />
-              `O seu navegador não suporta o elemento`
-              <code>audio</code>
-              .
-            </audio>
-            <label htmlFor="checkbox">
-              <input
-                data-testid={ `checkbox-music-${music.trackId}` }
-                name="checkbox"
-                type="checkbox"
-                onChange={ this.handleFavorite } // checa se é favorito antes de adicionar req8
-                checked={ isFavorited }
-              />
-            </label>
+        { isFavoriting && <Loading /> }
+        {unFavorite ? null
+          : (
+            <div>
+              {music.trackName}
+              <audio
+                data-testid="audio-component"
+                src={ music.previewUrl }
+                controls
+              >
+                <track kind="captions" />
+                `O seu navegador não suporta o elemento`
+                <code>audio</code>
+                .
+              </audio>
+              <label htmlFor="checkbox">
+                Favorita
+                <input
+                  data-testid={ `checkbox-music-${music.trackId}` }
+                  name="checkbox"
+                  type="checkbox"
+                  onChange={ this.handleFavorite } // checa se é favorito antes de adicionar req8
+                  checked={ isFavorited }
+                />
+              </label>
 
-          </div>
-        )}
+            </div>
+          )}
       </div>
     );
   }

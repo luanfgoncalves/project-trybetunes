@@ -35,7 +35,7 @@ class Favorites extends React.Component {
             key={ music.trackId }
             music={ music }
             favorites={ favorites }
-            renderedInFavorites={ renderedInFavorites } // prop usada pra renderização condicional que mostra somente as musicas favoritas
+            renderedInFavorites="renderedInFavorites" // prop usada pra renderização condicional que mostra somente as musicas favoritas
           />
         ))}
         <p>Favorites Page</p>
